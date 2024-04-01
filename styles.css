@@ -28,3 +28,7 @@ nav {
     display: flex;
     justify-content: center;
 }
+
+.active{
+    background: blanchedalmond;
+}

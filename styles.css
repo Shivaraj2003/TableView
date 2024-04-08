@@ -32,3 +32,8 @@ nav {
 .active{
     background: blanchedalmond;
 }
+
+.filterTitle{
+    position: relative;
+    top: 40px;
+}

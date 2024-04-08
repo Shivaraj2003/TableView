@@ -11,8 +11,9 @@
 <body>
     <div>
     <h1>IMDB Rating</h1>
-    
+    <div class="d-flex justify-content-around">
     <div class="dropdown ms-2 " id="dropdown">
+        <h6 class="filterTitle">IMDB</h6><br>
         <button class="btn" type="button" id="filterIcon" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-filter fa-2x"></i> 
         </button>
@@ -24,6 +25,33 @@
             <a class="dropdown-item" href="#" data-value="5">5 & above</a> 
         </div>
     </div>
+    <div class="dropdown ms-2 " id="dropdown">
+        <h6 class="filterTitle">Tomatoes</h6><br>
+        <button class="btn" type="button" id="filterIcon2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-filter fa-2x"></i> 
+        </button>
+        <div class="dropdown-menu" aria-labelledby="filterIcon" id="filterDropdown2">
+            <a class="dropdown-item" href="#" data-value="4.3">4.5 & above</a>
+            <a class="dropdown-item" href="#" data-value="4">4 & above</a>
+            <a class="dropdown-item" href="#" data-value="3">3 & above</a>
+            <a class="dropdown-item" href="#" data-value="2">2 & above</a>
+            <a class="dropdown-item" href="#" data-value="1">1 & above</a> 
+        </div>
+    </div>
+    <div class="dropdown ms-2 " id="dropdown">
+        <h6 class="filterTitle">Combined</h6><br>
+        <button class="btn" type="button" id="filterIcon3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-filter fa-2x"></i> 
+        </button>
+        <div class="dropdown-menu" aria-labelledby="filterIcon" id="filterDropdown3">
+            <a class="dropdown-item" href="#" data-value="8.3">8.3 & above</a>
+            <a class="dropdown-item" href="#" data-value="8">8 & above</a>
+            <a class="dropdown-item" href="#" data-value="7">7 & above</a>
+            <a class="dropdown-item" href="#" data-value="6">6 & above</a>
+            <a class="dropdown-item" href="#" data-value="5">5 & above</a> 
+        </div>
+    </div>
+</div>
 </div>
     <div class="container mt-5">
         <table class="table table-bordered">
@@ -31,13 +59,13 @@
                 <tr>
     <th scope="col">Sl Number</th>
     <th scope="col">Title <button class="btn btn-warning btn-sm" id="titleButton">Sort Now</button></th>
-    <th scope="col">IMDB Rating 
+    <th scope="col">IMDB Rating <i class="fa-solid fa-sort-down sort" ></i>
         <!-- <button class="btn btn-primary btn-sm" id="imdbButton">Button</button> -->
         </th>
-    <th scope="col">Tomatoes Rating
+    <th scope="col">Tomatoes Rating<i class="fa-solid fa-sort-down sort"></i>
          <!-- <button class="btn btn-primary btn-sm" id="tomatoesButton">Button</button> -->
          </th>
-    <th scope="col">Combined Rating 
+    <th scope="col">Combined Rating <i class="fa-solid fa-sort-down sort"></i>
         <!-- <button class="btn btn-primary btn-sm" id="combinedButton">Button</button> -->
         </th>
     <th scope="col">View</th>
@@ -54,13 +82,13 @@
                 </li>
 
                 <li class="page-item">
-                    <button class="page-link " href="#">1</button>
+                    <button class="page-link " href="#" id="one">1</button>
                 </li>
                 <li class="page-item">
-                    <button class="page-link" href="#">2</button>
+                    <button class="page-link" href="#" id="two">2</button>
                 </li>
                 <li class="page-item">
-                    <button class="page-link" href="#">3</button>
+                    <button class="page-link" href="#" id="three">3</button>
                 </li>
                 <li class="page-item">
                     <button class="page-link" href="#" id="next">Next</button>

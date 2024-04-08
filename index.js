@@ -2,6 +2,14 @@ const page_limit = 5;
 var currentPage = 1;
 var totalPages = 1;
 var filterDropdown = document.getElementById('filterDropdown');
+var tomatoesFilter = document.getElementById('filterDropdown2');
+var combinedFilter = document.getElementById('filterDropdown3');
+var color = document.getElementById('one');
+var columnTwo = document.getElementById('two');
+
+var columnThree = document.getElementById('three');
+
+ color.style.backgroundColor = 'lightblue';
 var data;
 var startIndex, endIndex;
 const btns = document.querySelectorAll('.page-link');
@@ -19,6 +27,8 @@ for (let i = 0; i < btns.length; i++) {
             else {
                 updatePageNum(pageNum);
                 currentPage -= 1;
+                document.getElementById("next").disabled = false;
+
             }
         }
         else if (pageNum == 'Next') {
@@ -36,12 +46,12 @@ for (let i = 0; i < btns.length; i++) {
             currentPage = Number(pageNum);
             document.getElementById("prev").disabled = false;
         }
-        if (currentPage > 1) {
-            dropdown.style.display = 'none';
-        }
-        else {
-            dropdown.style.display = 'block';
-        }
+        // if (currentPage > 1) {
+        //     dropdown.style.display = 'none';
+        // }
+        // else {
+        //     dropdown.style.display = 'block';
+        // }
         renderData();
     }
     )
@@ -50,6 +60,10 @@ for (let i = 0; i < btns.length; i++) {
 function updatePageNum(btn) {
     if (btn == 'Next') {
         if (totalPages <= 3) {
+            if(currentPage==1){
+columnTwo.style.backgroundColor = 'red';
+            }
+
             return;
         }
         for (let i = 1; i < btns.length - 1; i++) {
@@ -103,15 +117,41 @@ filterDropdown.addEventListener('click', function (e) {
 
     if (e.target.classList.contains('dropdown-item')) {
         var selectedValue = e.target.getAttribute('data-value');
-        sortItems(selectedValue);
+        sortItems('imdb', selectedValue);
+        console.log('Selected Value:', selectedValue);
+    }
+});
+
+tomatoesFilter.addEventListener('click', function (e) {
+
+    if (e.target.classList.contains('dropdown-item')) {
+        var selectedValue = e.target.getAttribute('data-value');
+        sortItems('tomatoes', selectedValue);
         console.log('Selected Value:', selectedValue);
     }
 });
 
 
-async function sortItems(sI) {
+combinedFilter.addEventListener('click', function (e) {
+
+    if (e.target.classList.contains('dropdown-item')) {
+        var selectedValue = e.target.getAttribute('data-value');
+        sortItems('combine', selectedValue);
+        console.log('Selected Value:', selectedValue);
+    }
+});
+
+async function sortItems(col, sI) {
     const originalData = JSON.parse(JSON.stringify(data));
-    data = originalData.filter(item => item.imdb.rating >= sI);
+    if (col == 'imdb')
+        data = originalData.filter(item => item.imdb.rating >= sI);
+    else if (col == 'tomatoes')
+        data = originalData.filter(item => item.tomatoes.viewer.rating >= sI);
+    else {
+        data = originalData.filter(item => ((item.imdb.rating + (item.tomatoes.viewer.rating) * 2).toFixed(2) / 2) >= sI);
+
+    }
+
     console.log(data);
 
     await renderData(true);
@@ -143,7 +183,7 @@ function renderData(sort = false) {
         <td>${i + 1}</td>
         <td>${data[i].title}</td>
         <td>${data[i].imdb.rating}</td>
-        <td>${data[i].tomatoes.viewer.rating}</td>
+        <td>${data[i].tomatoes.viewer.rating === 'null' ? 0 : data[i].tomatoes.viewer.rating}</td>
         <td>${((data[i].imdb.rating + (data[i].tomatoes.viewer.rating) * 2).toFixed(2) / 2)}</td>
         <td>${data[i].plot}</td>
       `;
@@ -153,6 +193,75 @@ function renderData(sort = false) {
 }
 
 
+
+var sortBtn = document.querySelectorAll('.sort');
+var sorted = false;
+// for(let i = 0; i<sortBtn.length ;i++)
+{
+    sortBtn[0].addEventListener('click', () => {
+        if (!sorted) {
+            data.sort((a, b) => {
+                const titleA = a.imdb.rating;
+                const titleB = b.imdb.rating;
+
+                {
+                    sorted = true;
+                    if (titleA > titleB) return -1;
+                    if (titleA < titleB) return 1;
+                    return 0;
+                }
+            });
+        }
+        else {
+            location.reload();
+        }
+
+        renderData();
+    });
+
+    sortBtn[1].addEventListener('click', () => {
+        if (!sorted) {
+            data.sort((a, b) => {
+                const titleA = a.tomatoes.viewer.rating;
+                const titleB = b.tomatoes.viewer.rating;
+
+                {
+                    sorted = true;
+                    if (titleA > titleB) return -1;
+                    if (titleA < titleB) return 1;
+                    return 0;
+                }
+            });
+        }
+        else {
+            location.reload();
+        }
+
+        renderData();
+    });
+
+    sortBtn[2].addEventListener('click', () => {
+        if (!sorted) {
+            data.sort((a, b) => {
+                const titleA = (a.tomatoes.viewer.rating + (a.tomatoes.viewer.rating * 2).toFixed(2) / 2);
+                const titleB = (b.tomatoes.viewer.rating + (b.tomatoes.viewer.rating * 2).toFixed(2) / 2);
+
+                {
+                    sorted = true;
+                    if (titleA > titleB) return -1;
+                    if (titleA < titleB) return 1;
+                    return 0;
+                }
+            });
+        }
+        else {
+            location.reload();
+        }
+
+        renderData();
+    });
+
+}
 
 document.getElementById("titleButton").addEventListener("click", function () {
     if (document.getElementById("titleButton").textContent == 'Sort Now') {
